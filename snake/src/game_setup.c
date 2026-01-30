@@ -92,8 +92,12 @@ enum board_init_status initialize_game(int** cells_p, size_t* width_p,
                                        size_t* height_p, snake_t* snake_p,
                                        char* board_rep) {
     // TODO: implement!
-
-    return INIT_SUCCESS;
+        enum board_init_status success = initialize_default_board(cells_p, width_p, height_p);
+        snake_head = 2 * 20 + 2;
+        direction = INPUT_NONE;
+        g_game_over = 0;
+        g_score =0;
+    return success;
 }
 
 /** Takes in a string `compressed` and initializes values pointed to by

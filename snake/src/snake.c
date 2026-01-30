@@ -43,6 +43,7 @@ void end_game(int* cells, size_t width, size_t height, snake_t* snake_p) {
 
     // Free any memory we've taken
     teardown(cells, snake_p);
+    free(cells);
 
     // ****************** UNCOMMENT THIS CODE IN PART 3B ***********************
     /*
@@ -117,8 +118,6 @@ int main(int argc, char** argv) {
     // TODO: save name_buffer 
     // TODO: save mbslen(name_buffer) 
 
-    // TODO: Remove this message and uncomment the line of code below this message
-    //       (part 1A)
     printf(
         "             ____   \n"
         "Hello       / . .\\ \n"
@@ -127,8 +126,13 @@ int main(int argc, char** argv) {
         "   __________/ /    \n"
         "-=:___________/\n");
 
-    // initialize_window(width, height);
+    initialize_window(width, height);
     // TODO: implement the game loop here (part 1A)!
+    while (!g_game_over) {
+        usleep(100000);
+        update(cells, width, height, NULL, INPUT_NONE, 0);
+        render_game(cells, width, height);
+    }
     // TODO: uncomment the line of code below (part 1A)
-    // end_game(cells, width, height, &snake);
+    end_game(cells, width, height, &snake);
 }

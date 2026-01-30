@@ -3,6 +3,8 @@
 #include <stdlib.h>
 
 // TODO: define global variables needed for your snake! (part 1A)
+int snake_head;
+enum input_key direction;
 
 // Definition of global variables for game status.
 int g_game_over;
