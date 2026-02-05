@@ -31,8 +31,54 @@ void update(int* cells, size_t width, size_t height, snake_t* snake_p,
     // to the new position. If the snake eats food, the game score (`g_score`)
     // increases by 1. This function assumes that the board is surrounded by
     // walls, so it does not handle the case where a snake runs off the board.
+    if (input != INPUT_NONE) {
+        direction = input;
+    } else if (direction != INPUT_LEFT && direction != INPUT_RIGHT &&
+               direction != INPUT_UP && direction != INPUT_DOWN) {
+        direction = INPUT_RIGHT;
+    }
+    int dir = 0;
+    switch (direction) {
+        case INPUT_RIGHT:
+            dir = 1;
+            break;
+        case INPUT_LEFT:
+            dir = -1;
+            break;
+        case INPUT_DOWN:
+            dir = (int)width;
+            break;
+        case INPUT_UP:
+            dir = -(int)width;
+            break;
+        default:
+            dir = 0;
+            break;
 
-    // TODO: implement!
+
+
+    }
+
+    size_t old_pos = (size_t)snake_head;
+    size_t new_pos = old_pos + dir;
+
+    if ((cells[new_pos] & FLAG_WALL) || (cells[new_pos] & FLAG_SNAKE)) {
+        g_game_over = 1;
+        return;
+    }
+
+    int ate_food = (cells[new_pos] & FLAG_FOOD) != 0;
+
+    cells[old_pos] &= ~FLAG_SNAKE;
+    cells[new_pos] |= FLAG_SNAKE;
+
+    snake_head = new_pos;
+
+    if (ate_food) {
+        g_score += 1;
+        cells[new_pos] &= ~FLAG_FOOD;
+        place_food(cells, width, height);
+    }
 }
 
 /** Sets a random space on the given board to food.
